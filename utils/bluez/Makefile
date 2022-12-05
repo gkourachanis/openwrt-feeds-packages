@@ -72,7 +72,9 @@ define Package/bluez-daemon/conffiles
 endef
 
 TARGET_CFLAGS += -D_GNU_SOURCE -ffunction-sections -fdata-sections
-TARGET_LDFLAGS += -Wl,--gc-sections
+TARGET_LDFLAGS += \
+	-Wl,--gc-sections \
+	/usr/lib/libtinfo.so.6
 
 CONFIGURE_ARGS += \
 	--enable-static \

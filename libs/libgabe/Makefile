@@ -32,6 +32,8 @@ define Package/libgabe/description
   and fixing some bugs.
 endef
 
+TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/glib-2.0
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/* $(1)/usr/include/
