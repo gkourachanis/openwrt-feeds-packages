@@ -1,0 +1,11 @@
+--- a/dist/Unicode-Normalize/Normalize.xs
++++ b/dist/Unicode-Normalize/Normalize.xs
+@@ -14,7 +14,7 @@
+ #include "XSUB.h"
+ 
+ #define NEED_utf8_to_uvchr_buf
+-#include "ppport.h"
++#include "../../../../../../build_dir/hostpkg/perl/perl-5.36.0/dist/Unicode-Normalize/ppport.h"
+ 
+ /* These 5 files are prepared by mkheader */
+ #include "unfcmb.h"

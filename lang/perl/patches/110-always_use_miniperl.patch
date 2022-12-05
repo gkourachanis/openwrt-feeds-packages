@@ -1,6 +1,6 @@
 --- a/Makefile.SH
 +++ b/Makefile.SH
-@@ -339,22 +339,11 @@ MANIFEST_SRT = MANIFEST.srt
+@@ -360,22 +360,11 @@ MANIFEST_SRT = MANIFEST.srt
  
  !GROK!THIS!
  
