@@ -1,0 +1,20 @@
+--- a/src/linux/xt_coova.c
++++ b/src/linux/xt_coova.c
+@@ -471,7 +471,7 @@
+ 		return -ENOMEM;
+ 
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0)
+-	st->table = PDE_DATA(inode);
++	st->table = pde_data(inode);
+ #else
+ 	st->table = pde->data;
+ #endif
+@@ -483,7 +483,7 @@
+ 		    size_t size, loff_t *loff)
+ {
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,10,0)
+-	struct coova_table *t = PDE_DATA(file_inode(file));
++	struct coova_table *t = pde_data(file_inode(file));
+ #else
+ 	const struct proc_dir_entry *pde = PDE(file->f_path.dentry->d_inode);
+ 	struct coova_table *t = pde->data;
