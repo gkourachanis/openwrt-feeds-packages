@@ -68,21 +68,19 @@
  /*::*
 --- a/extensions/LUA/lua/llimits.h
 +++ b/extensions/LUA/lua/llimits.h
-@@ -8,7 +8,6 @@
+@@ -8,6 +8,5 @@
  #define llimits_h
  
- #include <stddef.h>
 -#include <limits.h>
  
  #include "lua.h"
  
 --- a/extensions/LUA/lua/lapi.c
 +++ b/extensions/LUA/lua/lapi.c
-@@ -4,9 +4,6 @@
+@@ -4,8 +4,6 @@
  ** See Copyright Notice in lua.h
  */
  
--#include <stdarg.h>
 -#include <math.h>
 -#include <assert.h>
  #include <string.h>

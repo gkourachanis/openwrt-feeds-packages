@@ -1345,14 +1345,13 @@
 +#include <linux/string.h>
 --- /dev/null
 +++ b/extensions/LUA/lua/lapi.c
-@@ -0,0 +1,1086 @@
+@@ -0,0 +1,1085 @@
 +/*
 +** $Id: lapi.c,v 2.55.1.5 2008/07/04 18:41:18 roberto Exp $
 +** Lua API
 +** See Copyright Notice in lua.h
 +*/
 +
-+#include <stdarg.h>
 +#include <math.h>
 +#include <assert.h>
 +#include <string.h>
@@ -2453,14 +2452,12 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/lauxlib.c
-@@ -0,0 +1,674 @@
+@@ -0,0 +1,672 @@
 +/*
 +** $Id: lauxlib.c,v 1.159.1.3 2008/01/21 13:20:51 roberto Exp $
 +** Auxiliary functions for building Lua libraries
 +** See Copyright Notice in lua.h
 +*/
-+
-+#include <stdarg.h>
 +
 +#if !defined(__KERNEL__)
 +#include <ctype.h>
@@ -3130,7 +3127,7 @@
 +
 --- /dev/null
 +++ b/extensions/LUA/lua/lauxlib.h
-@@ -0,0 +1,184 @@
+@@ -0,0 +1,183 @@
 +/*
 +** $Id: lauxlib.h,v 1.88.1.1 2007/12/27 13:02:25 roberto Exp $
 +** Auxiliary functions for building Lua libraries
@@ -3142,7 +3139,6 @@
 +#define lauxlib_h
 +
 +
-+#include <stddef.h>
 +#include <linux/slab.h>	/* for kmalloc and kfree when allocating luaL_Buffer */
 +
 +#if !defined(__KERNEL__)
@@ -4887,7 +4883,7 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/ldebug.c
-@@ -0,0 +1,637 @@
+@@ -0,0 +1,635 @@
 +/*
 +** $Id: ldebug.c,v 2.29.1.6 2008/05/08 16:56:26 roberto Exp $
 +** Debug Interface
@@ -4895,8 +4891,6 @@
 +*/
 +
 +
-+#include <stdarg.h>
-+#include <stddef.h>
 +#include <string.h>
 +
 +#define ldebug_c
@@ -6141,14 +6135,12 @@
 +
 --- /dev/null
 +++ b/extensions/LUA/lua/ldump.c
-@@ -0,0 +1,164 @@
+@@ -0,0 +1,162 @@
 +/*
 +** $Id: ldump.c,v 2.8.1.1 2007/12/27 13:02:25 roberto Exp $
 +** save precompiled Lua chunks
 +** See Copyright Notice in lua.h
 +*/
-+
-+#include <stddef.h>
 +
 +#define ldump_c
 +#define LUA_CORE
@@ -6308,15 +6300,13 @@
 +}
 --- /dev/null
 +++ b/extensions/LUA/lua/lfunc.c
-@@ -0,0 +1,174 @@
+@@ -0,0 +1,172 @@
 +/*
 +** $Id: lfunc.c,v 2.12.1.2 2007/12/28 14:58:43 roberto Exp $
 +** Auxiliary functions to manipulate prototypes and closures
 +** See Copyright Notice in lua.h
 +*/
 +
-+
-+#include <stddef.h>
 +
 +#define lfunc_c
 +#define LUA_CORE
@@ -7896,7 +7886,7 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/llimits.h
-@@ -0,0 +1,125 @@
+@@ -0,0 +1,124 @@
 +/*
 +** $Id: llimits.h,v 1.69.1.1 2007/12/27 13:02:25 roberto Exp $
 +** Limits, basic types, and some other `installation-dependent' definitions
@@ -7906,7 +7896,6 @@
 +#ifndef llimits_h
 +#define llimits_h
 +
-+#include <stddef.h>
 +#include <limits.h>
 +
 +#include "lua.h"
@@ -8024,15 +8013,13 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/lmem.c
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,84 @@
 +/*
 +** $Id: lmem.c,v 1.70.1.1 2007/12/27 13:02:25 roberto Exp $
 +** Interface to Memory Manager
 +** See Copyright Notice in lua.h
 +*/
 +
-+
-+#include <stddef.h>
 +
 +#define lmem_c
 +#define LUA_CORE
@@ -8113,7 +8100,7 @@
 +
 --- /dev/null
 +++ b/extensions/LUA/lua/lmem.h
-@@ -0,0 +1,49 @@
+@@ -0,0 +1,47 @@
 +/*
 +** $Id: lmem.h,v 1.31.1.1 2007/12/27 13:02:25 roberto Exp $
 +** Interface to Memory Manager
@@ -8123,8 +8110,6 @@
 +#ifndef lmem_h
 +#define lmem_h
 +
-+
-+#include <stddef.h>
 +
 +#include "llimits.h"
 +#include "lua.h"
@@ -8165,14 +8150,12 @@
 +
 --- /dev/null
 +++ b/extensions/LUA/lua/lobject.c
-@@ -0,0 +1,215 @@
+@@ -0,0 +1,213 @@
 +/*
 +** $Id: lobject.c,v 2.22.1.1 2007/12/27 13:02:25 roberto Exp $
 +** Some generic functions over Lua objects
 +** See Copyright Notice in lua.h
 +*/
-+
-+#include <stdarg.h>
 +
 +#include <ctype.h>
 +#include <stdio.h>
@@ -8383,7 +8366,7 @@
 +}
 --- /dev/null
 +++ b/extensions/LUA/lua/lobject.h
-@@ -0,0 +1,381 @@
+@@ -0,0 +1,379 @@
 +/*
 +** $Id: lobject.h,v 2.20.1.2 2008/08/06 13:29:48 roberto Exp $
 +** Type definitions for Lua objects
@@ -8394,8 +8377,6 @@
 +#ifndef lobject_h
 +#define lobject_h
 +
-+
-+#include <stdarg.h>
 +
 +
 +#include "llimits.h"
@@ -10570,15 +10551,13 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/lstate.c
-@@ -0,0 +1,214 @@
+@@ -0,0 +1,212 @@
 +/*
 +** $Id: lstate.c,v 2.36.1.2 2008/01/03 15:20:39 roberto Exp $
 +** Global State
 +** See Copyright Notice in lua.h
 +*/
 +
-+
-+#include <stddef.h>
 +
 +#define lstate_c
 +#define LUA_CORE
@@ -11106,7 +11085,7 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/lstrlib.c
-@@ -0,0 +1,883 @@
+@@ -0,0 +1,882 @@
 +/*
 +** $Id: lstrlib.c,v 1.132.1.4 2008/07/11 17:27:21 roberto Exp $
 +** Standard library for string operations and pattern-matching
@@ -11115,7 +11094,6 @@
 +
 +
 +#include <ctype.h>
-+#include <stddef.h>
 +#include <stdio.h>
 +#include <stdlib.h>
 +#include <string.h>
@@ -12626,15 +12604,13 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/ltablib.c
-@@ -0,0 +1,288 @@
+@@ -0,0 +1,286 @@
 +/*
 +** $Id: ltablib.c,v 1.38.1.3 2008/02/14 16:46:58 roberto Exp $
 +** Library for Table Manipulation
 +** See Copyright Notice in lua.h
 +*/
 +
-+
-+#include <stddef.h>
 +
 +#define ltablib_c
 +#define LUA_LIB
@@ -13051,7 +13027,7 @@
 +#endif
 --- /dev/null
 +++ b/extensions/LUA/lua/luaconf.h
-@@ -0,0 +1,797 @@
+@@ -0,0 +1,795 @@
 +/*
 +** $Id: luaconf.h,v 1.82.1.7 2008/02/11 16:25:08 roberto Exp $
 +** Configuration file for Lua
@@ -13061,8 +13037,6 @@
 +
 +#ifndef lconfig_h
 +#define lconfig_h
-+
-+#include <stddef.h>
 +
 +#if !defined(__KERNEL__)
 +#include <limits.h>
@@ -13851,7 +13825,7 @@
 +
 --- /dev/null
 +++ b/extensions/LUA/lua/lua.h
-@@ -0,0 +1,387 @@
+@@ -0,0 +1,384 @@
 +/*
 +** $Id: lua.h,v 1.218.1.5 2008/08/06 13:30:12 roberto Exp $
 +** Lua - An Extensible Extension Language
@@ -13862,9 +13836,6 @@
 +
 +#ifndef lua_h
 +#define lua_h
-+
-+#include <stdarg.h>
-+#include <stddef.h>
 +
 +#include "luaconf.h"
 +
