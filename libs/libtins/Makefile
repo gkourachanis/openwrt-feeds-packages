@@ -29,7 +29,7 @@ define Package/libtins
   CATEGORY:=Libraries
   TITLE:=libtins
   URL:=https://libtins.github.io/
-  DEPENDS:=+libstdcpp +LIBTINS_ENABLE_PCAP:libpcap +LIBTINS_ENABLE_WPA2:libopenssl
+  DEPENDS:=+libstdcpp +LIBTINS_ENABLE_PCAP:libpcap +LIBTINS_ENABLE_WPA2:libopenssl +boost
   MENU:=1
 endef
 
