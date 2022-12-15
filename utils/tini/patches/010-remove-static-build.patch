@@ -1,0 +1,49 @@
+diff -ur a/ci/run_build.sh b/ci/run_build.sh
+--- a/ci/run_build.sh	2020-04-19 20:33:22.000000000 +0300
++++ b/ci/run_build.sh	2022-12-14 16:27:31.929140654 +0200
+@@ -74,7 +74,7 @@
+   export PATH="${BIN_TEST_DIR}:${PATH}"
+ 
+   # Smoke tests (actual tests need Docker to run; they don't run within the CI environment)
+-  for tini in "${BUILD_DIR}/tini" "${BUILD_DIR}/tini-static"; do
++  for tini in "${BUILD_DIR}/tini"; do
+     echo "Smoke test for ${tini}"
+     "$tini" --version
+ 
+@@ -229,7 +229,7 @@
+   exit 1
+ fi
+ 
+-for build_tini in tini tini-static; do
++for build_tini in tini; do
+   dist_tini="${build_tini}${SUFFIX}"
+   cp "${BUILD_DIR}/${build_tini}" "${DIST_DIR}/${dist_tini}"
+   DIST_TINIS+=("$dist_tini")
+diff -ur a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2020-04-19 20:33:22.000000000 +0300
++++ b/CMakeLists.txt	2022-12-14 16:27:04.292329297 +0200
+@@ -81,12 +81,8 @@
+ 
+ add_executable (tini src/tini.c)
+ 
+-add_executable (tini-static src/tini.c)
+-set_target_properties (tini-static PROPERTIES LINK_FLAGS "-Wl,--no-export-dynamic -static")
+-
+ # Installation
+ install (TARGETS tini DESTINATION bin)
+-install (TARGETS tini-static DESTINATION bin)
+ 
+ # Packaging
+ include (InstallRequiredSystemLibraries)
+diff -ur a/test/run_outer_tests.py b/test/run_outer_tests.py
+--- a/test/run_outer_tests.py	2020-04-19 20:33:22.000000000 +0300
++++ b/test/run_outer_tests.py	2022-12-14 16:27:42.152527523 +0200
+@@ -135,7 +135,7 @@
+     fail_cmd = ["docker", "kill", "-s", "KILL", name]
+ 
+     # Funtional tests
+-    for entrypoint in ["/tini/dist/tini", "/tini/dist/tini-static"]:
++    for entrypoint in ["/tini/dist/tini"]:
+         functional_base_cmd = base_cmd + [
+             "--entrypoint={0}".format(entrypoint),
+             "-e", "TINI_VERBOSITY=3",

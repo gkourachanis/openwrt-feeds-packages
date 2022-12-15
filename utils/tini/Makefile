@@ -35,7 +35,6 @@ TARGET_LDFLAGS += $(if $(CONFIG_USE_GLIBC),-lc -lgcc_eh)
 define Package/tini/install
 	$(INSTALL_DIR) $(1)/usr/bin
 
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/tini-static $(1)/usr/bin/docker-init
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/tini $(1)/usr/bin/
 endef
 
