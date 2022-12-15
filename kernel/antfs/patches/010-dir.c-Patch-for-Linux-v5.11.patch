@@ -1,0 +1,92 @@
+--- a/dir.c	2022-12-14 18:37:03.544502443 +0200
++++ b/dir.c	2022-12-14 19:54:13.563471682 +0200
+@@ -388,9 +388,12 @@
+ #elif KERNEL_VERSION(3, 6, 0) > LINUX_VERSION_CODE
+ static int antfs_create(struct inode *dir, struct dentry *entry, umode_t mode,
+ 			struct nameidata *nd __attribute__ ((unused)))
+-#else
++#elif KERNEL_VERSION(5, 11, 0) > LINUX_VERSION_CODE
+ static int antfs_create(struct inode *dir, struct dentry *entry, umode_t mode,
+ 			bool excl __attribute__((unused)))
++#else
++static int antfs_create(struct user_namespace *mnt_userns, struct inode *dir,
++			struct dentry *entry, umode_t mode, bool excl __attribute__((unused)))
+ #endif
+ {
+ 	return antfs_create_i(dir, entry, mode | S_IFREG);
+@@ -441,8 +444,11 @@
+  */
+ #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 3, 0)
+ static int antfs_mkdir(struct inode *dir, struct dentry *entry, int mode)
+-#else
++#elif LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0)
+ static int antfs_mkdir(struct inode *dir, struct dentry *entry, umode_t mode)
++#else
++static int antfs_mkdir(struct user_namespace *mnt_userns, struct inode *dir,
++		       struct dentry *entry, umode_t mode)
+ #endif
+ {
+ 	return antfs_create_i(dir, entry, mode | S_IFDIR);
+@@ -658,7 +664,11 @@
+  * old name. ntfs_delete() won't go to the point of invalidating the cache
+  * as long as the link count is greater than 0.
+  */
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
++static int antfs_rename(struct user_namespace *mnt_userns, struct inode *olddir,
++			struct dentry *oldent, struct inode *newdir,
++			struct dentry *newent, unsigned int flags)
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0)
+ static int antfs_rename(struct inode *olddir, struct dentry *oldent,
+ 			struct inode *newdir, struct dentry *newent,
+ 			unsigned int flags)
+@@ -1089,7 +1099,12 @@
+  * 4.) set timestamps for atime, and/or mtime. The timestamps can either be
+  *	stored beforehand in @attr, or the actual now can be used.
+  */
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
++static int antfs_setattr(struct user_namespace *mnt_userns, struct dentry *entry,
++			 struct iattr *attr)
++#else
+ static int antfs_setattr(struct dentry *entry, struct iattr *attr)
++#endif
+ {
+ 	struct inode *inode = entry->d_inode;
+ 	struct ntfs_inode *ni = ANTFS_NI(inode);
+@@ -1102,7 +1117,10 @@
+ 		antfs_log_debug("not implemented mode change");
+ 	}
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 36)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
++	setattr_copy(&init_user_ns, inode, attr);
++	mark_inode_dirty(inode);
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 36)
+ 	setattr_copy(inode, attr);
+ 	mark_inode_dirty(inode);
+ #elif LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 35)
+@@ -1204,7 +1222,12 @@
+  * stat.
+  */
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 11, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
++static int antfs_getattr(struct user_namespace *mnt_userns,
++			 const struct path *path, struct kstat *stat,
++#else
+ static int antfs_getattr(const struct path *path, struct kstat *stat,
++#endif
+ 			 u32 request_mask __attribute__((unused)),
+ 			 unsigned int flags __attribute__((unused)))
+ {
+@@ -1221,7 +1244,11 @@
+ 		err = -EIO;
+ 		goto out;
+ 	}
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
++	generic_fillattr(&init_user_ns, inode, stat);
++#else
+ 	generic_fillattr(inode, stat);
++#endif
+ out:
+ 	return err;
+ }
