@@ -25,4 +25,4 @@ define Package/antfs-mount/install
 	$(INSTALL_BIN) ./files/mount.ntfs $(1)/sbin
 endef
 
-$(eval $(call BuildPackage,antfs-mount))
+#$(eval $(call BuildPackage,antfs-mount))
