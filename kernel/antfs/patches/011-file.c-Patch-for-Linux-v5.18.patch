@@ -1,0 +1,52 @@
+--- a/file.c	2022-12-14 20:03:00.125590976 +0200
++++ b/file.c	2022-12-14 20:55:20.154244030 +0200
+@@ -517,9 +517,16 @@
+  * a compressed, resident or encrypted attribute through antfs_read(), or
+  * antfs_get_block() is used for every other @file.
+  */
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0)
++static int antfs_read_folio(struct file *file __attribute__((unused)),
++			    struct folio *folio)
++{
++	struct page *page = &folio->page;
++#else
+ static int antfs_readpage(struct file *file __attribute__((unused)),
+ 			  struct page *page)
+ {
++#endif
+ 	struct inode *inode = page->mapping->host;
+ 	struct ntfs_inode *ni;
+ 	size_t count = PAGE_SIZE;
+@@ -556,7 +563,11 @@
+ 		SetPageUptodate(page);
+ 	} else {
+ 		mutex_unlock(&ni->ni_lock);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0)
++		err = mpage_read_folio(folio, antfs_get_block);
++#else
+ 		err = mpage_readpage(page, antfs_get_block);
++#endif
+ 	}
+ 
+ out:
+@@ -601,7 +612,7 @@
+ 		antfs_log_error("!ni! ino: %lu; s_magic: %lu; dev: %s%s",
+ 				mapping->host->i_ino,
+ 				mapping->host->i_sb->s_magic,
+-				bdevname(mapping->host->i_sb->s_bdev, tmpstr),
++				snprintf(tmpstr, sizeof(tmpstr), "%pg", mapping->host->i_sb->s_bdev),
+ 				is_bad_inode(mapping->host) ? "; bad inode" : ""
+ 				);
+ 		BUG();
+@@ -668,10 +679,9 @@
+ 		mpage_readahead(&rac, antfs_get_block);
+ 		err = 0;
+ #else
+-
+ 		err = mpage_readpages(mapping, pages, nr_pages,
+ 				antfs_get_block);
+- #endif
++#endif
+ 
+ 		if (!err && do_init_page) {
+ 			/* Initialize stuff past initialized_size with zero. */
