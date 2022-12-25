@@ -46,7 +46,7 @@ TARGET_CPPFLAGS_PERL:=$(patsubst -g3,-g,$(TARGET_CPPFLAGS))
 TARGET_C___CFLAGS_PERL:= $(TARGET_CFLAGS_PERL) $(TARGET_CPPFLAGS_PERL)
 
 #
-TARGET_LDFLAGS+=-lbsd -lmd
+# TARGET_LDFLAGS+=-lbsd -lmd
 
 # A list of disabled tests
 # ExtUtils tests are disabled for now as we don't support building
