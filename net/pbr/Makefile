@@ -199,5 +199,5 @@ define Package/pbr-netifd/prerm
 endef
 
 $(eval $(call BuildPackage,pbr))
-$(eval $(call BuildPackage,pbr-iptables))
+#$(eval $(call BuildPackage,pbr-iptables))
 #$(eval $(call BuildPackage,pbr-netifd))
